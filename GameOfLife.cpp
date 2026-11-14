@@ -47,8 +47,8 @@ void determineState(bool gridOne[gridSize+1][gridSize+1]);
 void clearScreen(void);
 
 
-int main(){
-
+int main()
+  {
     // system( "color A" );//LGT green
     cout << COLOR_GREEN;
     clearScreen();
@@ -57,92 +57,93 @@ int main(){
     string nc;
     string start;
     string filename;
-    cout << "                         THE GAME OF life - Implementation in C++" << endl;
+    cout << "                         生命游戏（在C++中实现）" << endl;
     cout << endl;
     cout << endl;
     cout << endl;
-    cout << "Also known simply as life, " << endl;
-    cout << "is a cellular automaton devised by the British mathematician John Horton Conway in 1970." << endl;
+    cout << "也被称为life, " << endl;
+    cout << "是由英国数学家 John Horton Conway 在1970年设计的元胞自动机." << endl;
     cout << endl;
-    cout << "Rules" << endl;
-    cout << "The universe of the Game of life is an infinite two-dimensional orthogonal grid of square cells," << endl;
-    cout << "each of which is in one of two possible states, life or dead. Every" << endl;
-    cout << "cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent." << endl;
-    cout << "At each step in time, the following transitions occur:" << endl;
-    cout << "1. Any live cell with fewer than two live neighbours dies, as if caused by under-population." << endl;
-    cout << "2. Any live cell with two or three live neighbours lives on to the next generation." << endl;
-    cout << "3. Any live cell with more than three live neighbours dies, as if by over-population." << endl;
-    cout << "4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction." << endl;
+    cout << "规则如下" << endl;
+    cout << "生命游戏的宇宙是一个无限的二维正交方形细胞网格" << endl;
+    cout << "每个细胞只有生与死两种状态" << endl;
+    cout << "每个细胞的状态由周围八个细胞所决定" << endl;
+    cout << "随着时间流逝，细胞会发生如下转变：" << endl;
+    cout << "1. 当一个细胞周围少于两个活细胞时，该细胞死亡，这是由人口不足导致" << endl;
+    cout << "2. 当一个细胞周围有两到三个活细胞时，该细胞存活到下一次判定" << endl;
+    cout << "3. 当一个细胞周围有三个以上活细胞时，该细胞死亡，这是由人口过多导致" << endl;
+    cout << "4. 当一个细胞周围恰有三个活细胞时，该细胞由死亡转向复活，这是由繁殖导致" << endl;
     cout << endl;
-    cout << "O - living cell" << endl;
-    cout << ". - dead cell" << endl;
+    cout << "O - 活细胞" << endl;
+    cout << ". - 死细胞" << endl;
     cout << endl;
-    cout << "Enter the number of cells, or 'r' to read cells from file: ";
+    cout << "输入细胞数量或者输入“r”以从文件中读取细胞：";
     cin >> nc;
     cout << endl;
 
     if ( nc == "r" )
+    {
+	    while (true)
       {
-	while (true)
-	  {
-	    
-	    cout << "Enter name of file to read from: "<<endl;
-	    cin  >> filename;
-	    
-	    ifstream readfile(filename);
-	    if ( readfile.is_open() )
-	      {
-		string fileline,xx,yy;
+	      
+	      cout << "输入文件名："<<endl;
+	      cin  >> filename;
+	      
+	      ifstream readfile(filename);
+	      if ( readfile.is_open() )
+        {
+		      string fileline,xx,yy;
+          
+	      	while (getline(readfile,fileline)){
+		        stringstream ss(fileline);
+		        
+		        getline(ss,xx,' ');
+		        getline(ss,yy,' ');
+            
+  		      x = stoi(xx);
+    		    y = stoi(yy);
 
-		while (getline(readfile,fileline))
-		  {
-		    stringstream ss(fileline);
-		    
-		    getline(ss,xx,' ');
-		    getline(ss,yy,' ');
-
-		    x = stoi(xx);
-		    y = stoi(yy);
-
-		    gridOne[x][y] = true;
-		  }
-		break;
-	      } else {
-	      cout << "No such file, try again." << endl;
-	    }
-	  }
+	  	      gridOne[x][y] = true;
+		      }
+		      break;
+	      } 
+        else 
+        {
+	      cout << "没有这个文件夹，请再次输入" << endl;
+	      }
       }
+    }
     else
-      {
-	
-	for(int i=0;i<stoi(nc);i++)
-	  {
-	    cout <<stoi(nc)<< "Enter the coordinates of cell " << i+1 << " : ";
-	    cin >> x >> y;
-	    gridOne[x][y] = true;
-	    printGrid(gridOne);
-	  }
-      }
-    cout << "Grid setup is done. Start the game ? (y/n)" << endl;
+    {
+	    
+	    for(int i=0;i<stoi(nc);i++)
+	    {
+	      cout <<stoi(nc)<< "输入第 " << i+1 << "个细胞的坐标并用空格隔开（例：1 1） : ";
+	      cin >> x >> y;
+	      gridOne[x][y] = true;
+	      printGrid(gridOne);
+	    }
+    }
+    cout << "细胞已经就绪，是否开始游戏？（y/n）：" << endl;
     printGrid(gridOne);
     cin >> start;
     if( start == "y" || start == "Y" )
+    {
+      while (true)
       {
-        while (true)
-	  {
-            printGrid(gridOne);
-            determineState(gridOne);
-            usleep(200000);
-            clearScreen();
-	  }
-      }
-    else
-      {
-        cout << COLOR_RESET;
+        printGrid(gridOne);
+        determineState(gridOne);
+        usleep(200000);
         clearScreen();
-        return 0;
-      }   
-}
+	    }
+    }
+    else
+    {
+      cout << COLOR_RESET;
+      clearScreen();
+      return 0;
+    }   
+  }
 
 void clearScreen(void) {
   // Tested and working on Ubuntu and Cygwin
